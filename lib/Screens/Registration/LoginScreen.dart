@@ -1,34 +1,43 @@
+import 'package:ecommerce_app/Controllers/passwordController.dart';
 import 'package:ecommerce_app/CustomWidgets/CustomElevatedButton.dart';
 import 'package:ecommerce_app/Screens/HomeScreens/TabBarScreen.dart';
-import 'package:ecommerce_app/CustomWidgets/CustomCircleAvatar.dart';
-import 'package:ecommerce_app/CustomWidgets/CustomTextfileds.dart';
 import 'package:ecommerce_app/Screens/Registration/ForgetScreen.dart';
-import 'package:ecommerce_app/Screens/Registration/SignUpScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../CustomWidgets/Socialicons/SocialiconContainer.dart';
+
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login',style: TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.bold),),
+        title: const Text(
+          'Login',
+          style: TextStyle(
+              color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.purple,
         leading: IconButton(
-          onPressed: () { Get.back();  },
-          icon:const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back),
           color: Colors.white,
         ),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-                Container1(),
-                Container2(),
+              Container1(),
+              const SocialiconsSection(),
             ],
           ),
         ),
@@ -36,31 +45,113 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
 //Section for Email & Password
 class Container1 extends StatelessWidget {
-  const Container1({super.key, Key});
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  PasswordController controller = PasswordController();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  Container1({super.key, Key});
+
+  //Firebase Login
+  Future<void> login()async{
+    try{
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text
+      );
+      if(userCredential.user != null){
+        Get.off(()=> const TabBarScreen());
+        Get.snackbar("success", "login Successfully",snackPosition: SnackPosition.TOP,duration: const Duration(seconds: 2),backgroundColor: Colors.green,colorText: Colors.white);
+      }
+    }
+    catch(exp){
+      Get.snackbar("Error", "$exp",snackPosition: SnackPosition.TOP,duration: const Duration(seconds: 2),backgroundColor: Colors.red,colorText: Colors.white);
+      print(exp);
+    }
+  }
+
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your email';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your password';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
+      child: Form(
+        key: _formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             const Row(
               children: [
-                Text('Welcome Back', style: TextStyle(fontSize: 45,fontWeight: FontWeight.bold)),
+                Text('Welcome Back',
+                    style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold)),
               ],
             ),
             const Row(
               children: [
-                Text('Ready To Login', style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+                Text('Ready To Login',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               ],
             ),
-            const SizedBox(height: 30,),
-            CustomTextFields('Email', 'Email', const Icon(Icons.email), const Icon(Icons.email), TextInputType.emailAddress),
-            const SizedBox(height: 30,),
-            CustomTextFields('Password', 'Password', const Icon(Icons.password), const Icon(Icons.remove_red_eye), TextInputType.visiblePassword),
+            const SizedBox(
+              height: 30,
+            ),
+            TextFormField(
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  )
+              ),
+              validator: _validateEmail,
+            ),
+            const SizedBox(height: 12),
+            Obx((){
+              return
+                TextFormField(
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: passwordController,
+                  obscureText: controller.obsecure.value,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        controller.togglePasswordVisibility();
+                      },
+                      icon: Icon(
+                        controller.obsecure.value
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                    ),
+                  ),
+                  validator: _validatePassword,
+                );
+            }),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -68,68 +159,79 @@ class Container1 extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Row(
                     children: [
-                      Checkbox(value: true, onChanged: (value){}),
-                      const Text("Remember Me")
+                      Checkbox(value: true, onChanged: (value) {}),
+                      const Text("Remember Me"),
                     ],
                   ),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                    child: TextButton(
-                        onPressed: (){
-                          Get.to(const ForgetPassScreen());
-                        },
-                        child: const Text('Forget Password'))),
+                  child: TextButton(
+                    onPressed: () {
+                      Get.to( ForgetPassScreen());
+                    },
+                    child: const Text('Forget Password'),
+                  ),
+                ),
               ],
             ),
-            const SizedBox(height: 30,),
+            const SizedBox(
+              height: 30,
+            ),
             Row(
               children: [
-              CustomElevatedButton(
-                text: "Login",
-                bgcolor: Colors.purpleAccent,
-                onPressed: (){
-                  Get.to(const TabBarScreen());},),
-            ]
+                CustomElevatedButton(
+                  bgcolor: Colors.purple,
+                  onPressed: ()  {
+                    try {
+                      if (_formKey.currentState!.validate()) {
+                        login();
+                      }
+                    } catch (a) {
+                      print(a);
+                    }
+                  },
+                  text: 'Login',
+                ),
+              ],
             ),
-            const SizedBox(height: 20,),
-            Row(
-              children: [
-              CustomElevatedButton(
-                text: "Create Account",
-                bgcolor: Colors.white,
-                textColor: Colors.black,
-                onPressed: (){
-                  Get.to(const SignupScreen());},),
-            ]
+            const SizedBox(
+              height: 35,
             ),
-            const SizedBox(height: 20,),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Flexible(child: Divider(thickness: 0.5,color: Colors.grey,indent: 60, endIndent: 5,)),
-                Text('Or SignIn With',style: TextStyle(color: Colors.grey),),
-                Flexible(child: Divider(thickness: 0.5,color: Colors.grey,indent: 5, endIndent: 60,))
+                Flexible(
+                  child: Divider(
+                    thickness: 0.5,
+                    color: Colors.grey,
+                    indent: 60,
+                    endIndent: 5,
+                  ),
+                ),
+                Text(
+                  'Or SignIn With',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                Flexible(
+                  child: Divider(
+                    thickness: 0.5,
+                    color: Colors.grey,
+                    indent: 5,
+                    endIndent: 60,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 30),
+
           ],
         ),
-      );
-  }
-}
-//Section For Social Icons
-class Container2 extends StatelessWidget {
-  const Container2({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          CustomCircleAvatar(30, Image.asset("assets/images/Socialicons/facebook.jpg"),page: const LoginScreen()),
-          CustomCircleAvatar(28, Image.asset("assets/images/Socialicons/google.jpg"),page: const LoginScreen()),
-          CustomCircleAvatar(30, Image.asset("assets/images/Socialicons/phone.jpg"),page: const LoginScreen()),
-        ],
+      ),
     );
   }
+
 }
+
+
+

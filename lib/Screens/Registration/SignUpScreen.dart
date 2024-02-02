@@ -1,89 +1,191 @@
+import 'package:ecommerce_app/Controllers/passwordController.dart';
 import 'package:ecommerce_app/CustomWidgets/CustomElevatedButton.dart';
-import 'package:ecommerce_app/CustomWidgets/CustomTextfileds.dart';
+import 'package:ecommerce_app/Screens/Registration/UserDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../CustomWidgets/CustomCircleAvatar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'LoginScreen.dart';
 
-class SignupScreen extends StatelessWidget {
-  const SignupScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  PasswordController controller = PasswordController();
+
+  SignUpScreen({super.key});
+
+  //Firebase SignUp
+  Future<void> Signup() async {
+    try {
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      if (userCredential.user != null) {
+        Get.off(UserDetails());
+        Get.snackbar("success", "Account created Successfully",snackPosition: SnackPosition.TOP,duration: const Duration(seconds: 2),backgroundColor: Colors.green,colorText: Colors.white);
+
+      }
+    } catch (excep) {
+      Get.snackbar("error", "$excep",snackPosition: SnackPosition.TOP,duration: const Duration(seconds: 2),backgroundColor: Colors.red,colorText: Colors.white);
+
+    }
+  }
+
+
+  //ValidatorFunctions
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your email';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your password';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SignUp',
-          style: TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.bold),),
-        backgroundColor: Colors.purple,
-        leading: IconButton(
-          onPressed: () { Get.back();  },
-          icon:const Icon(Icons.arrow_back),
+        iconTheme: const IconThemeData(
           color: Colors.white,
         ),
+        backgroundColor: Colors.purple,
+        title: const Text('Sign Up',style: TextStyle(color: Colors.white),),
+
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Let's Create Your Account",style: TextStyle(fontSize: 30),),
+                const Text(
+                  "Let's Create Your Account", style: TextStyle(fontSize: 30),),
                 const SizedBox(height: 20,),
-                CustomTextFields("First-Name", 'First-Name', const Icon(Icons.person), const Icon(Icons.person),TextInputType.text),
-                const SizedBox(height: 10,),
-                CustomTextFields("Last-Name", 'Last-Name', const Icon(Icons.person), const Icon(Icons.person),TextInputType.text),
-                const SizedBox(height: 10,),
-                CustomTextFields("Email", 'Email', const Icon(Icons.email), const Icon(Icons.email),TextInputType.emailAddress),
-                const SizedBox(height: 10,),
-                CustomTextFields("Gender", 'Gender', const Icon(Icons.generating_tokens), const Icon(Icons.generating_tokens),TextInputType.text),
-                const SizedBox(height: 10,),
-                CustomTextFields("Age", 'Age', const Icon(Icons.apps_outage), const Icon(Icons.apps_outage_outlined),TextInputType.text),
-                const SizedBox(height: 10,),
-                CustomTextFields("Password", 'Password', const Icon(Icons.password), const Icon(Icons.password_sharp),TextInputType.visiblePassword,obsecureText: true,),
-                const SizedBox(height: 10,),
-                Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: [
-                      Checkbox(value: true, onChanged: (value){}),
-                      const Text("I agree to Privacy Policy and Terms of use")
-                    ],
+                TextFormField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                      labelText: 'Email',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      )
                   ),
+                  validator: _validateEmail,
                 ),
-                ],
-            ),
-                const SizedBox(height: 10,),
+                const SizedBox(height: 12),
+                Obx((){
+                  return
+                    TextFormField(
+                      obscureText: controller.obsecure.value,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                          labelText: 'Password',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: (){
+                              controller.togglePasswordVisibility();
+                            },
+                            icon: controller.obsecure.value
+                                ? const Icon(Icons.visibility_off)
+                                : const Icon(Icons.visibility),
+                          )
+                      ),
+                      validator: _validatePassword,
+                    );
+                }),
+                const SizedBox(height: 20),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     CustomElevatedButton(
-                        bgcolor: Colors.purpleAccent,
-                        text: "SignUp",
-                        onPressed: (){})
+                      bgcolor: Colors.purple,
+                      text: "SignUp",
+                      onPressed: () {
+                        try {
+                          if (_formKey.currentState!.validate()) {
+                            Signup();
+                          }
+                        }
+                        catch (a) {
+                          print('Signup ERROR: $a');
+                        }
+                      },
+                    ),
                   ],
                 ),
+                const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.center,
+                  child: TextButton(
+                    onPressed: () {
+                      Get.to(LoginScreen());
+                    },
+                    child: const Text('Already have an account? Login'),
+                  ),
+                ),
+                const SizedBox(height: 20,),
                 const SizedBox(height: 15,),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(child: Divider(thickness: 0.5,color: Colors.grey,indent: 60, endIndent: 5,)),
-                    Text('Or SignIn With',style: TextStyle(color: Colors.grey),),
-                    Flexible(child: Divider(thickness: 0.5,color: Colors.grey,indent: 5, endIndent: 60,))
+                    Flexible(child: Divider(thickness: 0.5,
+                      color: Colors.grey,
+                      indent: 60,
+                      endIndent: 5,)),
+                    Text(
+                      'Or SignIn With', style: TextStyle(color: Colors.grey),),
+                    Flexible(child: Divider(thickness: 0.5,
+                      color: Colors.grey,
+                      indent: 5,
+                      endIndent: 60,))
                   ],
                 ),
-                const SizedBox(height: 15,),
+                const SizedBox(height: 35,),
                 Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CustomCircleAvatar(20, Image.asset("assets/images/Socialicons/facebook.jpg"),page: const LoginScreen()),
-                CustomCircleAvatar(18, Image.asset("assets/images/Socialicons/google.jpg"),page: const LoginScreen()),
-                CustomCircleAvatar(20, Image.asset("assets/images/Socialicons/phone.jpg"),page: const LoginScreen()),
-              ],
-            ),
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(
+                      children: [
+                        CustomCircleAvatar(
+                            30, Image.asset("assets/images/Socialicons/facebook.jpg"),
+                            page: LoginScreen()),
+                        const Text("Facebook"),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        CustomCircleAvatar(
+                            26, Image.asset("assets/images/Socialicons/google.jpg"),
+                            page: LoginScreen()),
+                        const Text("Google"),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        CustomCircleAvatar(
+                            30, Image.asset("assets/images/Socialicons/phone.jpg"),
+                            page: LoginScreen()),
+                        const Text("Phone"),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
               ],
             ),
           ),

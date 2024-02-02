@@ -7,6 +7,8 @@ class CustomTextFields extends StatefulWidget {
   Icon? prefixicon;
   Icon? sufixicon;
   bool? obsecureText;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
 
   // Added a named parameter to indicate if it's a password field
   CustomTextFields(
@@ -14,9 +16,8 @@ class CustomTextFields extends StatefulWidget {
       this.labeltext,
       this.prefixicon,
       this.sufixicon,
-      this.textInputType, {super.key, 
-        this.obsecureText,
-      });
+      this.textInputType,
+      {super.key, this.obsecureText,this.controller,this.validator});
 
   @override
   State<CustomTextFields> createState() => _CustomTextFieldsState();
