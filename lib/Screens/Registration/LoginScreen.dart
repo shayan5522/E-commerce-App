@@ -45,7 +45,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
 //Section for Email & Password
 class Container1 extends StatelessWidget {
 
@@ -230,7 +229,6 @@ class Container1 extends StatelessWidget {
       ),
     );
   }
-
 }
 
 

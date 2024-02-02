@@ -43,15 +43,10 @@ class _BlazersCategoryState extends State<BlazersCategory> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
+        child: ListView.builder(
           padding: EdgeInsets.zero,
           shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisExtent: 230,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-          ),
+          itemCount: title.length,
           itemBuilder: (context, index) => CustomItem(
             onpressed: () {
               Get.to(
@@ -66,7 +61,6 @@ class _BlazersCategoryState extends State<BlazersCategory> {
             title[index],
             price[index],
           ),
-          itemCount: title.length,
         ),
       ),
     );

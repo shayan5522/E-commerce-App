@@ -1,6 +1,11 @@
+import 'package:ecommerce_app/CategorySection/Reusable/BottomSheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ecommerce_app/CategorySection/Reusable/BottomSheet.dart';
+import 'BottomSheet.dart';
+import 'BottomSheet.dart';
+import 'BottomSheet.dart';
 
 class BuyNow extends StatelessWidget {
   String title;
@@ -12,7 +17,6 @@ class BuyNow extends StatelessWidget {
       this.image,
       this.price
       );
-  Color myColor = Color(0xFF95353D);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +25,7 @@ class BuyNow extends StatelessWidget {
           Container(
             width: Get.width,
             height: Get.height,
-            color: Colors.red,
+            color: Colors.blue,
           ),
           //Title-Container
           Container(
@@ -116,7 +120,14 @@ class BuyNow extends StatelessWidget {
                             color: Colors.blue,
                           ),
                         ),
-                        child: IconButton(onPressed: (){}, icon: Icon(CupertinoIcons.cart_fill,color: Colors.blue,))),
+                        child: IconButton(
+                            onPressed: () {
+                              Get.bottomSheet(
+                                CustomBottomSheet(image: image, title: title, price: price),
+                              );
+                            },
+
+                            icon: Icon(CupertinoIcons.cart_fill,color: Colors.blue,))),
                     SizedBox(width: 10,),
                     Container(
                       width: Get.width*0.79,

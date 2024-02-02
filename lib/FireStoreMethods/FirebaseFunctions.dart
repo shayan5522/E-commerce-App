@@ -24,7 +24,7 @@ class FirebaseFunctions {
       cloud.collection(userid).doc(title).set(data);
       QuerySnapshot snapshot=await cloud.collection(userid).where('title',isEqualTo: title).get();
       if(snapshot!=null) {
-        Get.snackbar("Success", "Product successfully added to cart", snackPosition: SnackPosition.TOP,backgroundColor: Colors.green,colorText: Colors.white);
+        Get.snackbar("Success", "Product successfully added to cart", snackPosition: SnackPosition.TOP,backgroundColor: Colors.green,colorText: Colors.white,duration: Duration(seconds: 1));
       } else {
         Get.snackbar("Error", "Failed to add product to cart", snackPosition: SnackPosition.TOP,backgroundColor: Colors.red,colorText: Colors.white);
       }

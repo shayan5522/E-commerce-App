@@ -44,15 +44,9 @@ class _ShirtsCategoryState extends State<ShirtsCategory> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
+        child: ListView.builder(
           padding: EdgeInsets.zero,
           shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisExtent: 230,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-          ),
           itemBuilder: (context, index) => CustomItem(
             onpressed: () {
               Get.to(

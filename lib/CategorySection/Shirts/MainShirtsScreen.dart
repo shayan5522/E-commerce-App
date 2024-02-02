@@ -41,15 +41,8 @@ class MainShirtsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisExtent: 230,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-          ),
+        child: ListView.builder(
+          itemCount: title.length,
           itemBuilder: (context, index) => CustomItem(
             onpressed: () {
               Get.to(
@@ -60,11 +53,10 @@ class MainShirtsScreen extends StatelessWidget {
                 ),
               );
             },
-             image[index],
-             title[index],
-             price[index],
+            image[index],
+            title[index],
+            price[index],
           ),
-          itemCount: title.length,
         ),
       ),
     );

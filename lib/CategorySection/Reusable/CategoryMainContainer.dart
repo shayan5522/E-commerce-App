@@ -16,95 +16,98 @@ class CustomItem extends StatelessWidget {
     this.price,
        {super.key, required this.onpressed,}
   );
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){   Get.to(()=>BuyNow(title, imagepath, price));},
+      onTap: (){Get.to(()=>BuyNow(title, imagepath, price));},
       child: Container(
-        width: Get.width * 0.5,
-        height: Get.height * 0.5,
-        decoration: const BoxDecoration(
+        width: Get.width,
+        height: Get.height*0.21,
+        decoration: BoxDecoration(
+          color: Color(0xFFFEAEAEA),
           borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(18),
-            bottomLeft: Radius.circular(18),
+            topRight: Radius.circular(5),
+            topLeft: Radius.circular(5),
           ),
-          color: Color(0x30CCC7FF,),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // For image and heart icon
-            Container(
-              child: Stack(
-                children: [
-                  Container(
-                    // Image
-                   child: Image.asset(
-                      imagepath,
-                      width: Get.width,
-                      height: Get.height * 0.18,
-                      fit: BoxFit.cover,),
-                  ),
-                  // Fav icon
-                  Positioned(
-                    top: 0.0,
-                    right: 0.0,
-                    child: Container(
-                      child: IconButton(
-                        icon: const Icon(Icons.favorite,color: Colors.red,),
-                        onPressed: () {},
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            //SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Title
-                        Text(title,
-                          style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),),
-                        // Price
-                        Text(price,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blueAccent,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        IconButton(
-                            onPressed: (){
-                              Get.bottomSheet(
-                                CustomBottomSheet(image: imagepath, title: title, price: price),
-                              );
-                            },
-                            icon: const Icon(CupertinoIcons.cart),
-                        ),
-                      ],
-                    )
-                  ],
+        child: Stack(
+            children: [
+              //mainContainer
+              Container(
+                width: Get.width,
+                height: Get.height*0.2,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(5),
                 ),
               ),
-            )
-          ],
+              //image-Container
+              Container(
+                width: Get.width*0.35,
+                height: Get.height*0.18,
+                decoration: BoxDecoration(
+                  color: Color(0xFFFF4F4F5,),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    bottomLeft: Radius.circular(5),
+                  ),
+                ),
+                child: Image.asset(imagepath,fit: BoxFit.cover,),
+              ),
+              //Details-Container
+              Positioned(
+                right: 0,
+                left: 137,
+                child: Container(
+                  width: Get.width*0.65,
+                  height: Get.height*0.18,
+                  decoration: BoxDecoration(
+                     color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(5),
+                      bottomRight: Radius.circular(5),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                            Text(title,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.black),),
+                            Text("Number",style: TextStyle(fontSize: 13,color: Colors.black),),
+                          SizedBox(height: 10,),
+                          Row(
+                            children: [
+                              Icon(Icons.star,color: Colors.yellow,),
+                              Icon(Icons.star,color: Colors.yellow,),
+                              Icon(Icons.star,color: Colors.yellow,),
+                              Icon(Icons.star,color: Colors.yellow,),
+                              Icon(Icons.star_border),
+                            ],
+                          ),
+                        SizedBox(height: 10,),
+                        Text(price,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.blue),),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              //fav-icon
+              Positioned(
+                top: 132,
+                left: 338,
+                child: Container(
+                  width: Get.width*0.1,
+                  height: Get.width*0.1,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    ),
+                  child: Icon(Icons.favorite_border),
+                ),
+              ),
+            ],
         ),
       ),
     );

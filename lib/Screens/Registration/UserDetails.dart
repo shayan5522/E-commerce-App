@@ -106,7 +106,9 @@ class UserDetails extends StatelessWidget {
                     Stack(
                       children: [
                         Center(
-                          child: Obx(() => CircleAvatar(
+                          child:
+                          Obx(() =>
+                              CircleAvatar(
                             radius: 70,
                             backgroundImage: controller.imagePath.isNotEmpty
                                 ? FileImage(File(controller.imagePath.toString()))
@@ -117,7 +119,8 @@ class UserDetails extends StatelessWidget {
                               size: 60,
                             )
                                 : null,
-                          )),
+                          )
+                          ),
                         ),
                         Positioned(
                           bottom: 10,
