@@ -20,49 +20,27 @@ class CustomItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){Get.to(()=>BuyNow(title, imagepath, price));},
-      child: Container(
-        width: Get.width,
-        height: Get.height*0.21,
-        decoration: BoxDecoration(
-          color: Color(0xFFFEAEAEA),
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(5),
-            topLeft: Radius.circular(5),
-          ),
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Stack(
             children: [
-              //mainContainer
-              Container(
-                width: Get.width,
-                height: Get.height*0.2,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
               //image-Container
-              Container(
-                width: Get.width*0.35,
-                height: Get.height*0.18,
-                decoration: BoxDecoration(
-                  color: Color(0xFFFF4F4F5,),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    bottomLeft: Radius.circular(5),
-                  ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Image.asset(imagepath,
+                  fit: BoxFit.cover,
+                  width: 100,
+                  height: 120,
                 ),
-                child: Image.asset(imagepath,fit: BoxFit.cover,),
               ),
               //Details-Container
-              Positioned(
-                right: 0,
-                left: 137,
+              Align(
+                alignment: Alignment.topRight,
                 child: Container(
                   width: Get.width*0.65,
-                  height: Get.height*0.18,
+                  height: 120,
                   decoration: BoxDecoration(
-                     color: Colors.white,
+                     color: Colors.grey,
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(5),
                       bottomRight: Radius.circular(5),
@@ -74,9 +52,8 @@ class CustomItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                            Text(title,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.black),),
-                            Text("Number",style: TextStyle(fontSize: 13,color: Colors.black),),
-                          SizedBox(height: 10,),
+                            Text(title,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.black),),
+                            Text("Number",style: TextStyle(fontSize: 12,color: Colors.black),),
                           Row(
                             children: [
                               Icon(Icons.star,color: Colors.yellow,),
@@ -86,7 +63,7 @@ class CustomItem extends StatelessWidget {
                               Icon(Icons.star_border),
                             ],
                           ),
-                        SizedBox(height: 10,),
+                        SizedBox(height: 5,),
                         Text(price,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.blue),),
                       ],
                     ),

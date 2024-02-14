@@ -26,6 +26,11 @@ class CartScreen extends StatelessWidget  {
                       width: Get.width,
                       height: Get.height*0.21,
                       decoration: BoxDecoration(
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.greenAccent,
+                        //   )
+                        // ],
                         color: Color(0xFFFEAEAEA),
                         borderRadius: BorderRadius.only(
                           topRight: Radius.circular(5),

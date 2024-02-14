@@ -47,7 +47,7 @@ class WelcomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: ElevatedButton(
+                      child:  ElevatedButton(
                         onPressed: () {
                           Get.to(()=>LoginScreen());
                         },

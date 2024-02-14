@@ -11,7 +11,7 @@ class small_containers extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: Get.width * 0.23,
-      height: Get.height * 0.1,
+      height: Get.height * 0.13,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(3),
         color: const Color(0x30CCC7FF,),
@@ -24,7 +24,7 @@ class small_containers extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center, // Center the avatar horizontally
             children: [
               CustomCircleAvatar(
-                30,
+                20,
                 Image.asset(imagepath),
               ),
             ],

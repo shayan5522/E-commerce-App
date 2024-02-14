@@ -1,6 +1,8 @@
+import 'package:ecommerce_app/CategorySection/Reusable/BuyNow.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'CategorySection/Shirts/MainShirtsScreen.dart';
 import 'Screens/HomeScreens/SplashScreen.dart';
 import 'firebase_options.dart';
 
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return   const GetMaterialApp(
+    return    GetMaterialApp(
       // theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
        home: SplashScreen(),

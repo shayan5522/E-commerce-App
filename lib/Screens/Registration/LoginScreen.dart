@@ -5,7 +5,6 @@ import 'package:ecommerce_app/Screens/Registration/ForgetScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../CustomWidgets/Socialicons/SocialiconContainer.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -17,7 +16,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title:  Text(
           'Login',
           style: TextStyle(
               color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
@@ -64,7 +63,7 @@ class Container1 extends StatelessWidget {
       );
       if(userCredential.user != null){
         Get.off(()=> const TabBarScreen());
-        Get.snackbar("success", "login Successfully",snackPosition: SnackPosition.TOP,duration: const Duration(seconds: 2),backgroundColor: Colors.green,colorText: Colors.white);
+        Get.snackbar("success", "login Successfully",snackPosition: SnackPosition.TOP,duration: const Duration(seconds: 2),backgroundColor: Colors.grey,colorText: Colors.white);
       }
     }
     catch(exp){
@@ -72,8 +71,6 @@ class Container1 extends StatelessWidget {
       print(exp);
     }
   }
-
-
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter your email';
