@@ -7,7 +7,6 @@ class CustomCircleAvatar extends StatefulWidget {
   final Widget? page; //optional property during usage use as [page: HomeScreen]etc.
 
   const CustomCircleAvatar(this.rad, this.backgroundImage,{super.key, this.page});
-
   @override
   State<CustomCircleAvatar> createState() => _CustomCircleAvatarState();
 }
