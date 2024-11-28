@@ -96,10 +96,8 @@ class WelcomeScreen extends StatelessWidget {
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Welcome to My Ecomerce Application",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),
+                    Text("Welcome to My Ecomerce Application",
+                      style: TextStyle(fontSize: 20, color: Colors.white),),
                   ],
                 ),
               ],
