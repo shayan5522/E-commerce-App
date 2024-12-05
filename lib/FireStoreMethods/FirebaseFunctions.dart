@@ -18,7 +18,6 @@ class FirebaseFunctions {
       'no of product': counter,
       'email': email,
     };
-
     try {
       FirebaseFirestore cloud = FirebaseFirestore.instance;
       cloud.collection(userid).doc(title).set(data);
