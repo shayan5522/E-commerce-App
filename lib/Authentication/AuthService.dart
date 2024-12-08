@@ -5,7 +5,6 @@ import '../Screens/HomeScreens/WelcomeScreen.dart';
 
 class AuthService{
   final FirebaseAuth _auth= FirebaseAuth.instance;
-
   Future<void> SignOut()async {
     Get.dialog(
         AlertDialog(
