@@ -9,7 +9,6 @@ class RlistTile extends StatelessWidget {
     required this.icon,
      this.trailing,
   });
-
   final String title;
   final String subtitle;
   final VoidCallback onTap;
