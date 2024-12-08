@@ -15,6 +15,7 @@ class RlistTile extends StatelessWidget {
   final IconData icon;
   final Widget? trailing;
 
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
